@@ -1,0 +1,407 @@
+/**
+ * GroundSelection Component Styles - Professional Sports Theme
+ */
+
+.ground-selection {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 24px);
+}
+
+/* Header */
+.selection-header {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 24px);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  flex-wrap: wrap;
+}
+
+.btn-back {
+  padding: clamp(10px, 2vw, 14px) clamp(20px, 4vw, 32px);
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.selected-info h2 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin-bottom: 8px;
+  color: var(--white);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.selected-date {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.selected-slot {
+  color: var(--brand-green);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-weight: 700;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: clamp(16px, 3vw, 28px);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  padding: clamp(16px, 3vw, 20px);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+.legend-box {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease;
+}
+
+.legend-item:hover .legend-box {
+  transform: scale(1.1);
+}
+
+.legend-box.available {
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  box-shadow: 0 4px 12px rgba(0, 217, 163, 0.3);
+}
+
+.legend-box.unavailable {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Grounds Grid */
+.grounds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(220px, 30vw, 280px), 1fr));
+  gap: clamp(16px, 3vw, 24px);
+  margin-bottom: clamp(24px, 4vw, 40px);
+}
+
+/* Ground Card */
+.ground-card {
+  padding: 0;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.ground-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.ground-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ground Visual Diagram */
+.ground-visual {
+  width: 100%;
+  padding: clamp(20px, 4vw, 32px);
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 140px;
+}
+
+.ground-diagram {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  filter: drop-shadow(0 4px 16px rgba(0, 217, 163, 0.2));
+  transition: all 0.4s ease;
+}
+
+.ground-card:hover .ground-diagram {
+  filter: drop-shadow(0 8px 24px rgba(0, 217, 163, 0.4));
+  transform: scale(1.05);
+}
+
+/* Ground Info Section */
+.ground-info {
+  padding: clamp(20px, 4vw, 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.ground-card.available {
+  border-color: rgba(0, 217, 163, 0.3);
+  background: rgba(0, 217, 163, 0.08);
+}
+
+.ground-card.available:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(0, 217, 163, 0.4);
+  border-color: var(--brand-green);
+}
+
+.ground-card.available:hover::before {
+  opacity: 1;
+}
+
+.ground-card.available:hover .ground-name,
+.ground-card.available:hover .ground-description,
+.ground-card.available:hover .ground-status {
+  color: var(--white);
+}
+
+.ground-card.unavailable {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ground-card.unavailable .ground-visual {
+  opacity: 0.5;
+}
+
+.ground-icon {
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: clamp(10px, 2vw, 16px);
+  filter: drop-shadow(0 4px 12px rgba(0, 217, 163, 0.3));
+}
+
+.ground-name {
+  font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  transition: color 0.4s ease;
+}
+
+.ground-description {
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: clamp(10px, 2vw, 14px);
+  font-weight: 500;
+  line-height: 1.5;
+  transition: color 0.4s ease;
+  padding: 0 10px;
+}
+
+.ground-card.available:hover .ground-description {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Pricing Display */
+.ground-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: clamp(14px, 3vw, 18px);
+  padding: clamp(10px, 2vw, 14px) clamp(14px, 3vw, 20px);
+  background: rgba(0, 217, 163, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 217, 163, 0.2);
+  transition: all 0.4s ease;
+}
+
+.ground-card:hover .ground-price {
+  background: rgba(0, 217, 163, 0.15);
+  border-color: rgba(0, 217, 163, 0.4);
+  transform: scale(1.05);
+}
+
+.price-label {
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+}
+
+.price-value {
+  font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+  font-weight: 800;
+  color: var(--brand-green);
+  letter-spacing: -0.02em;
+}
+
+.ground-card.available:hover .price-value {
+  color: var(--white);
+}
+
+.price-duration {
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.ground-card.available:hover .price-duration {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ground-status {
+  padding: clamp(6px, 1.5vw, 10px) clamp(14px, 3vw, 20px);
+  border-radius: 24px;
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.4s ease;
+}
+
+.available-badge {
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(0, 217, 163, 0.3);
+}
+
+.unavailable-badge {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.ground-card.available:hover .available-badge {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--brand-green);
+  transform: scale(1.05);
+}
+
+/* No Grounds Message */
+.no-grounds-message {
+  text-align: center;
+  padding: clamp(32px, 6vw, 56px);
+  background: rgba(251, 191, 36, 0.1);
+  border: 2px solid rgba(251, 191, 36, 0.3);
+  border-radius: 16px;
+  color: rgb(251, 191, 36);
+  font-weight: 700;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  backdrop-filter: blur(10px);
+}
+
+.no-grounds-message p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+/* Loading and Error States */
+.loading,
+.error {
+  text-align: center;
+  padding: clamp(32px, 6vw, 56px);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 600;
+}
+
+.error {
+  color: #ef4444;
+}
+
+.error button {
+  margin-top: clamp(16px, 3vw, 24px);
+}
+
+/* Action Buttons */
+.ground-selection-actions {
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 20px);
+  margin-top: clamp(32px, 5vw, 48px);
+  flex-wrap: wrap;
+}
+
+.ground-selection-actions button {
+  min-width: clamp(120px, 20vw, 160px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .selection-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .legend {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .grounds-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ground-selection {
+    padding: 12px;
+  }
+
+  .ground-card {
+    padding: 20px;
+  }
+}
+  }
+
+  .ground-card {
+    padding: 20px;
+  }
+
+  .ground-icon {
+    font-size: 36px;
+  }
+
+  .ground-name {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,349 @@
+/**
+ * Main App Styles - Professional Sports Theme
+ */
+
+/* App Container */
+.app {
+  min-height: 100vh;
+  background: var(--bg-gradient-main);
+  padding: clamp(16px, 3vw, 32px);
+  position: relative;
+}
+
+.app::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  right: -10%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(0, 217, 163, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.app-header {
+  text-align: center;
+  color: var(--white);
+  margin-bottom: clamp(24px, 4vw, 48px);
+  padding: clamp(24px, 5vw, 64px) 20px;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.app-header h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin-bottom: 12px;
+  color: var(--white);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.app-header p {
+  font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+  opacity: 0.9;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Progress Bar */
+.progress-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(8px, 2vw, 16px);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  padding: clamp(16px, 3vw, 24px);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+}
+
+.progress-step {
+  flex: 1;
+  text-align: center;
+  padding: clamp(12px, 2.5vw, 18px) clamp(10px, 2vw, 16px);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  font-size: clamp(0.75rem, 2vw, 0.95rem);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.progress-step span {
+  position: relative;
+  z-index: 1;
+}
+
+.progress-step.active {
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  color: var(--white);
+  font-weight: 700;
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 217, 163, 0.3);
+  border: 1px solid rgba(0, 217, 163, 0.3);
+}
+
+.progress-step.active::before {
+  opacity: 1;
+}
+
+/* Content Container */
+.app-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 48px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  min-height: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(20px);
+}
+
+/* Confirmation Screen */
+.confirmation {
+  text-align: center;
+  padding: clamp(40px, 8vw, 80px) clamp(20px, 4vw, 40px);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.confirmation-icon {
+  width: clamp(80px, 15vw, 120px);
+  height: clamp(80px, 15vw, 120px);
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  margin: 0 auto clamp(24px, 4vw, 40px);
+  box-shadow: 0 12px 40px rgba(0, 217, 163, 0.4);
+  animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.confirmation h2 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  color: var(--brand-green);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.confirmation-details {
+  background: rgba(255, 255, 255, 0.05);
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 16px;
+  margin-bottom: clamp(24px, 4vw, 40px);
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.confirmation-details p {
+  display: flex;
+  justify-content: space-between;
+  padding: clamp(14px, 2.5vw, 18px) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s ease;
+}
+
+.confirmation-details p:hover {
+  color: var(--white);
+}
+
+.confirmation-details p:last-child {
+  border-bottom: none;
+  color: var(--brand-green);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  margin-top: 8px;
+}
+
+.confirmation-details strong {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+.confirmation button {
+  padding: clamp(14px, 3vw, 18px) clamp(32px, 6vw, 56px);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+}
+
+/* Common Button Styles */
+.btn {
+  padding: clamp(12px, 2.5vw, 16px) clamp(24px, 4vw, 36px);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  font-weight: 700;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  color: var(--white);
+  box-shadow: 0 8px 24px rgba(0, 217, 163, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 12px 32px rgba(0, 217, 163, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app::before {
+    width: 500px;
+    height: 500px;
+  }
+
+  .progress-bar {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .progress-step {
+    width: 100%;
+  }
+
+  .app-content {
+    border-radius: 20px;
+  }
+
+  .confirmation-icon {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 12px;
+  }
+
+  .progress-bar {
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .app-content {
+    padding: 20px;
+    border-radius: 16px;
+  }
+}
+  }
+
+  .confirmation {
+    padding: 40px 20px;
+  }
+
+  .confirmation-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 48px;
+  }
+
+  .confirmation h2 {
+    font-size: 24px;
+  }
+
+  .confirmation-details {
+    padding: 20px;
+  }
+
+  .confirmation-details p {
+    flex-direction: column;
+    gap: 5px;
+    font-size: 14px;
+  }
+}

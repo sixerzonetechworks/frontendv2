@@ -1,0 +1,285 @@
+/**
+ * DateSelection Component Styles - Professional Sports Theme
+ */
+
+.date-selection {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 24px);
+}
+
+.date-selection h2 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin-bottom: 12px;
+  color: var(--white);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  font-weight: 500;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: clamp(16px, 3vw, 28px);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  padding: clamp(16px, 3vw, 20px);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+.legend-box {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease;
+}
+
+.legend-item:hover .legend-box {
+  transform: scale(1.1);
+}
+
+.legend-box.available {
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  box-shadow: 0 4px 12px rgba(0, 217, 163, 0.3);
+}
+
+.legend-box.unavailable {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Months Container */
+.months-container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vw, 48px);
+}
+
+.month-section {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: clamp(20px, 4vw, 32px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.month-section:hover {
+  transform: translateY(-2px);
+}
+
+.month-title {
+  font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  margin-bottom: clamp(16px, 3vw, 24px);
+  color: var(--brand-green);
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(0, 217, 163, 0.2);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Dates Grid */
+.dates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(70px, 12vw, 90px), 1fr));
+  gap: clamp(12px, 2.5vw, 18px);
+}
+
+/* Date Card */
+.date-card {
+  position: relative;
+  padding: clamp(14px, 3vw, 18px);
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.date-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--brand-green), var(--accent-teal));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.date-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.date-card.enabled {
+  border-color: rgba(0, 217, 163, 0.3);
+  background: rgba(0, 217, 163, 0.08);
+}
+
+.date-card.enabled:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(0, 217, 163, 0.4);
+  border-color: var(--brand-green);
+}
+
+.date-card.enabled:hover::before {
+  opacity: 1;
+}
+
+.date-card.enabled:hover .date-number,
+.date-card.enabled:hover .date-label {
+  color: var(--white);
+}
+
+.date-card.disabled {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.date-number {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--white);
+  transition: color 0.4s ease;
+}
+
+.date-day {
+  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.4s ease;
+}
+
+.date-label {
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+  font-weight: 600;
+  transition: color 0.4s ease;
+}
+
+.date-card.enabled:hover .date-day {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Action Buttons */
+.date-selection-actions {
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 20px);
+  margin-top: clamp(32px, 5vw, 48px);
+  flex-wrap: wrap;
+}
+
+.date-selection-actions button {
+  min-width: clamp(120px, 20vw, 160px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .legend {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dates-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .date-selection {
+    padding: 12px;
+  }
+
+  .month-section {
+    padding: 16px;
+  }
+
+  .dates-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 8px;
+  }
+}
+  text-transform: uppercase;
+  color: #666;
+}
+
+.date-card.enabled:hover .date-day {
+  color: white;
+}
+
+.date-status {
+  font-size: 10px;
+  margin-top: 5px;
+  color: #f44336;
+  font-weight: bold;
+}
+
+/* Loading and Error States */
+.loading,
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 18px;
+}
+
+.error {
+  color: #f44336;
+}
+
+.error button {
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dates-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+  }
+
+  .date-card {
+    padding: 10px;
+  }
+
+  .date-number {
+    font-size: 20px;
+  }
+
+  .date-day {
+    font-size: 10px;
+  }
+}
