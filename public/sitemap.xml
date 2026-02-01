@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Replace example-domain.com with your real domain before deploying -->
+  <url>
+    <loc>https://your-domain.com/</loc>
+    <lastmod>2026-02-01</lastmod>
+  </url>
+  <url>
+    <loc>https://your-domain.com/privacy-policy</loc>
+    <lastmod>2026-02-01</lastmod>
+  </url>
+  <url>
+    <loc>https://your-domain.com/terms</loc>
+    <lastmod>2026-02-01</lastmod>
+  </url>
+  <url>
+    <loc>https://your-domain.com/contact</loc>
+    <lastmod>2026-02-01</lastmod>
+  </url>
+  <url>
+    <loc>https://your-domain.com/refund-policy</loc>
+    <lastmod>2026-02-01</lastmod>
+  </url>
+</urlset>
