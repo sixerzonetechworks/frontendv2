@@ -1,0 +1,111 @@
+/* Shared styles for legal and contact pages */
+.legal-container {
+  max-width: 780px;
+  margin: 24px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.04);
+  line-height: 1.5;
+  color: #1f2937;
+}
+
+.legal-container h1 {
+  font-size: 1.25rem;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+.legal-container h1::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: #60a5fa;
+  border-radius: 3px;
+  margin-top: 10px;
+}
+
+.legal-container .meta {
+  color: #6b7280;
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+}
+
+.legal-container h2 {
+  margin-top: 14px;
+  margin-bottom: 6px;
+  color: #0f1724;
+  font-size: 1rem;
+}
+
+.legal-container p,
+.legal-container li {
+  color: #374151;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.legal-container ul {
+  padding-left: 18px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+.legal-container ol {
+  padding-left: 20px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
+.section-divider {
+  border-top: 1px solid #f3f4f6;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.legal-contact {
+  margin-top: 14px;
+  padding: 12px;
+  background: #fbfdff;
+  border-radius: 8px;
+  border: 1px solid #eef3fb;
+}
+.contact-card {
+  background: #f7fafc;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #eef3fb;
+  margin-top: 8px;
+}
+.small {
+  color: #6b7280;
+  font-size: 0.86rem;
+  margin-top: 8px;
+}
+
+@media (max-width: 720px) {
+  .legal-container {
+    margin: 14px 12px;
+    padding: 14px;
+  }
+  .legal-container h1 {
+    font-size: 1.125rem;
+  }
+  .legal-container p,
+  .legal-container li {
+    font-size: 13px;
+  }
+}
+
+/* Footer link class (used previously in small pages) */
+.footer-links {
+  margin-top: 18px;
+  text-align: center;
+}
+.footer-links a {
+  margin: 0 6px;
+  color: #0366d6;
+  text-decoration: none;
+}
+.footer-links a:hover {
+  text-decoration: underline;
+}
