@@ -1,6 +1,6 @@
 /**
  * Customer Booking Component
- * 
+ *
  * This is the main booking flow for customers:
  * 1. Date Selection - User selects an available date
  * 2. Time Slot Selection - User selects an available time slot
@@ -8,12 +8,13 @@
  * 4. Booking Confirmation - User completes the booking
  */
 
-import { useState } from 'react';
-import DateSelection from './DateSelection';
-import TimeSlotSelection from './TimeSlotSelection';
-import GroundSelection from './GroundSelection';
-import BookingForm from './BookingForm';
-import { formatDate, formatTimeRange } from '../utils/helpers';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import DateSelection from "./DateSelection";
+import TimeSlotSelection from "./TimeSlotSelection";
+import GroundSelection from "./GroundSelection";
+import BookingForm from "./BookingForm";
+import { formatDate, formatTimeRange } from "../utils/helpers";
 
 function CustomerBooking() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -53,7 +54,7 @@ function CustomerBooking() {
     <div className="app">
       {/* Header */}
       <header className="app-header">
-        <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", width: "100%" }}>
           <h1>🏏 SixerZone Turf</h1>
           <p>Book your turf in just a few simple steps</p>
         </div>
@@ -61,36 +62,34 @@ function CustomerBooking() {
 
       {/* Progress Indicator */}
       <div className="progress-bar">
-        <div className={`progress-step ${currentStep >= 1 ? 'active' : ''}`}>
+        <div className={`progress-step ${currentStep >= 1 ? "active" : ""}`}>
           <span>1. Select Date</span>
         </div>
-        <div className={`progress-step ${currentStep >= 2 ? 'active' : ''}`}>
+        <div className={`progress-step ${currentStep >= 2 ? "active" : ""}`}>
           <span>2. Select Time</span>
         </div>
-        <div className={`progress-step ${currentStep >= 3 ? 'active' : ''}`}>
+        <div className={`progress-step ${currentStep >= 3 ? "active" : ""}`}>
           <span>3. Select Ground</span>
         </div>
-        <div className={`progress-step ${currentStep >= 4 ? 'active' : ''}`}>
+        <div className={`progress-step ${currentStep >= 4 ? "active" : ""}`}>
           <span>4. Complete Booking</span>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="app-content">
-        {currentStep === 1 && (
-          <DateSelection onDateSelect={handleDateSelect} />
-        )}
+        {currentStep === 1 && <DateSelection onDateSelect={handleDateSelect} />}
 
         {currentStep === 2 && (
-          <TimeSlotSelection 
-            selectedDate={selectedDate} 
+          <TimeSlotSelection
+            selectedDate={selectedDate}
             onSlotSelect={handleSlotSelect}
             onBack={() => setCurrentStep(1)}
           />
         )}
 
         {currentStep === 3 && (
-          <GroundSelection 
+          <GroundSelection
             selectedDate={selectedDate}
             selectedSlot={selectedSlot}
             onGroundSelect={handleGroundSelect}
@@ -99,7 +98,7 @@ function CustomerBooking() {
         )}
 
         {currentStep === 4 && !bookingConfirmation && (
-          <BookingForm 
+          <BookingForm
             selectedDate={selectedDate}
             selectedSlot={selectedSlot}
             selectedGround={selectedGround}
@@ -113,20 +112,55 @@ function CustomerBooking() {
             <div className="confirmation-icon">✓</div>
             <h2>Booking Confirmed!</h2>
             <div className="confirmation-details">
-              <p><strong>Booking ID:</strong> <span>{bookingConfirmation.id}</span></p>
-              <p><strong>Name:</strong> <span>{bookingConfirmation.name}</span></p>
-              <p><strong>Ground:</strong> <span>{bookingConfirmation.groundName}</span></p>
-              <p><strong>Date:</strong> <span>{selectedDate ? formatDate(selectedDate) : new Date(bookingConfirmation.startTime).toLocaleDateString()}</span></p>
-              <p><strong>Time Slots:</strong> <span>
-                {selectedSlot.hours && selectedSlot.hours.length > 1 
-                  ? formatTimeRange(selectedSlot.hours)
-                  : selectedSlot.slot
-                }
-              </span></p>
-              <p><strong>Duration:</strong> <span>{selectedSlot.hours ? selectedSlot.hours.length : 1} Hour{selectedSlot.hours && selectedSlot.hours.length > 1 ? 's' : ''}</span></p>
-              <p><strong>Amount Paid:</strong> <span>₹{bookingConfirmation.totalAmount}</span></p>
+              <p>
+                <strong>Booking ID:</strong>{" "}
+                <span>{bookingConfirmation.id}</span>
+              </p>
+              <p>
+                <strong>Name:</strong> <span>{bookingConfirmation.name}</span>
+              </p>
+              <p>
+                <strong>Ground:</strong>{" "}
+                <span>{bookingConfirmation.groundName}</span>
+              </p>
+              <p>
+                <strong>Date:</strong>{" "}
+                <span>
+                  {selectedDate
+                    ? formatDate(selectedDate)
+                    : new Date(
+                        bookingConfirmation.startTime,
+                      ).toLocaleDateString()}
+                </span>
+              </p>
+              <p>
+                <strong>Time Slots:</strong>{" "}
+                <span>
+                  {selectedSlot.hours && selectedSlot.hours.length > 1
+                    ? formatTimeRange(selectedSlot.hours)
+                    : selectedSlot.slot}
+                </span>
+              </p>
+              <p>
+                <strong>Duration:</strong>{" "}
+                <span>
+                  {selectedSlot.hours ? selectedSlot.hours.length : 1} Hour
+                  {selectedSlot.hours && selectedSlot.hours.length > 1
+                    ? "s"
+                    : ""}
+                </span>
+              </p>
+              <p>
+                <strong>Amount Paid:</strong>{" "}
+                <span>₹{bookingConfirmation.totalAmount}</span>
+              </p>
               {bookingConfirmation.razorpayPaymentId && (
-                <p><strong>Payment ID:</strong> <span style={{fontSize: '0.9em', wordBreak: 'break-all'}}>{bookingConfirmation.razorpayPaymentId}</span></p>
+                <p>
+                  <strong>Payment ID:</strong>{" "}
+                  <span style={{ fontSize: "0.9em", wordBreak: "break-all" }}>
+                    {bookingConfirmation.razorpayPaymentId}
+                  </span>
+                </p>
               )}
             </div>
             <button className="btn btn-primary" onClick={handleStartOver}>
