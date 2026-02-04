@@ -24,6 +24,13 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Mapping for ground display names
+  const groundDisplayNames = {
+    'G1': 'Ground 1',
+    'G2': 'Ground 2',
+    'Mega_Ground': 'Double Ground'
+  };
+
   /**
    * Fetch available grounds when component mounts
    */
@@ -158,12 +165,12 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
                     fill="var(--brand-green)" 
                     fontSize="20" 
                     fontWeight="bold" 
-                    textAnchor="middle">G1</text>
+                    textAnchor="middle">Ground 1</text>
                   {/* G2 Label (Dimmed) */}
                   <text x="145" y="65" 
                     fill="rgba(255, 255, 255, 0.3)" 
                     fontSize="16" 
-                    textAnchor="middle">G2</text>
+                    textAnchor="middle">Ground 2</text>
                 </svg>
               )}
               {ground.name === 'G2' && (
@@ -189,13 +196,13 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
                   <text x="55" y="65" 
                     fill="rgba(255, 255, 255, 0.3)" 
                     fontSize="16" 
-                    textAnchor="middle">G1</text>
+                    textAnchor="middle">Ground 1</text>
                   {/* G2 Label */}
                   <text x="145" y="65" 
                     fill="var(--brand-green)" 
                     fontSize="20" 
                     fontWeight="bold" 
-                    textAnchor="middle">G2</text>
+                    textAnchor="middle">Ground 2</text>
                 </svg>
               )}
               {ground.name === 'Mega_Ground' && (
@@ -216,7 +223,7 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
                     fill="var(--brand-green)" 
                     fontSize="18" 
                     fontWeight="bold" 
-                    textAnchor="middle">MEGA</text>
+                    textAnchor="middle">DOUBLE</text>
                   <text x="100" y="78" 
                     fill="var(--brand-green)" 
                     fontSize="14" 
@@ -231,7 +238,7 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
               <div className="ground-icon">
                 {ground.available ? '🏏' : '🔒'}
               </div>
-              <h3 className="ground-name">{ground.name}</h3>
+              <h3 className="ground-name">{groundDisplayNames[ground.name] || ground.name}</h3>
               
               {/* Ground Description */}
               {ground.description && (
@@ -242,8 +249,13 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
               {ground.price && (
                 <div className="ground-price">
                   <span className="price-label">Price:</span>
-                  <span className="price-value">₹{ground.pricePerHour || Math.round(ground.price / (selectedSlot.hours?.length || 1))}</span>
-                  <span className="price-duration">/hour</span>
+                  <span className="price-value">₹{ground.price}</span>
+                  <span className="price-duration"> for {selectedSlot.hours?.length || 1} hour{(selectedSlot.hours?.length || 1) > 1 ? 's' : ''}</span>
+                  {ground.pricePerHour && (
+                    <div className="price-per-hour">
+                      (₹{ground.pricePerHour}/hour avg)
+                    </div>
+                  )}
                 </div>
               )}
               

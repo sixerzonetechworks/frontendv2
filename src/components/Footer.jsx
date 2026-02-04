@@ -26,10 +26,10 @@ export default function Footer() {
             <strong>Support</strong>
           </p>
           <p>
-            <a href="tel:+919036331195">+91-9036331195</a>
+            <a href="tel:+918884184667">+91-8884184667</a>
           </p>
           <p>
-            <a href="mailto:support@sixerzone.com">support@sixerzone.com</a>
+            <a href="mailto:sixerzone.techworks@gmail.com">sixerzone.techworks@gmail.com</a>
           </p>
         </div>
       </div>

@@ -18,6 +18,13 @@ import './BookingForm.css';
 
 function OfflineBookingFlow({ onBookingComplete, onCancel }) {
   const [currentStep, setCurrentStep] = useState(1);
+
+  // Mapping for ground display names
+  const groundDisplayNames = {
+    'G1': 'Ground 1',
+    'G2': 'Ground 2',
+    'Mega_Ground': 'Double Ground'
+  };
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedGround, setSelectedGround] = useState(null);
@@ -169,7 +176,7 @@ function OfflineBookingFlow({ onBookingComplete, onCancel }) {
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Ground:</span>
-                  <span className="summary-value">{selectedGround.name}</span>
+                  <span className="summary-value">{groundDisplayNames[selectedGround.name] || selectedGround.name}</span>
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Duration:</span>

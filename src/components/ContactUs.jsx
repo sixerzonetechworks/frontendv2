@@ -12,15 +12,15 @@ export default function ContactUs() {
 
       <div className="contact-card">
         <p>
-          <strong>Phone:</strong> <a href="tel:+919036331195">+91-9036331195</a>{" "}
+          <strong>Phone:</strong> <a href="tel:+918884184667">+91-8884184667</a>{" "}
           (Mon–Sat 9:00–18:00)
         </p>
         <p>
           <strong>Email:</strong>{" "}
-          <a href="mailto:support@sixerzone.com">support@sixerzone.com</a>
+          <a href="mailto:sixerzone.techworks@gmail.com">sixerzone.techworks@gmail.com</a>
         </p>
         <p>
-          <strong>Address:</strong> SixerZone Turf, 12 Sample Ave, City
+          <strong>Address:</strong> Bus stop, Ramnagar Rd, Kannan Nagar, Bammanajogi, Vijayapura, Karnataka 586101
         </p>
         <p className="small">
           For urgent issues about active bookings, call us. Typical response

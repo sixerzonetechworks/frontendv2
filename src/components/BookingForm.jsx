@@ -18,6 +18,12 @@ import { formatDate, getDayName, isValidEmail, isValidPhone, formatTimeRange } f
 import './BookingForm.css';
 
 function BookingForm({ selectedDate, selectedSlot, selectedGround, onBookingComplete, onBack }) {
+  // Mapping for ground display names
+  const groundDisplayNames = {
+    'G1': 'Ground 1',
+    'G2': 'Ground 2',
+    'Mega_Ground': 'Double Ground'
+  };
   // Form state
   const [formData, setFormData] = useState({
     name: '',
@@ -279,7 +285,7 @@ function BookingForm({ selectedDate, selectedSlot, selectedGround, onBookingComp
             </div>
             <div className="summary-item">
               <span className="summary-label">Ground:</span>
-              <span className="summary-value">{selectedGround.name}</span>
+              <span className="summary-value">{groundDisplayNames[selectedGround.name] || selectedGround.name}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Duration:</span>

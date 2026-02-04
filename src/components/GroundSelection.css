@@ -287,6 +287,19 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.price-per-hour {
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  margin-top: 4px;
+  text-align: center;
+  width: 100%;
+}
+
+.ground-card.available:hover .price-per-hour {
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .ground-status {
   padding: clamp(6px, 1.5vw, 10px) clamp(14px, 3vw, 20px);
   border-radius: 24px;
