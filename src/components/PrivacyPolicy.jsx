@@ -70,7 +70,7 @@ export default function PrivacyPolicy() {
         <p>
           For privacy questions or requests, email{" "}
           <a href="mailto:support@sixerzone.com">support@sixerzone.com</a> or
-          call <a href="tel:+919036331195">+91-9036331195</a>.
+          call <a href="tel:+918884184667">+91-8884184667</a>.
         </p>
       </div>
     </div>
