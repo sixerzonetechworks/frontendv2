@@ -232,6 +232,9 @@
     gap: 8px;
   }
 }
+
+/* Legacy fallback selector retained for compatibility */
+.date-day.legacy-date-day {
   text-transform: uppercase;
   color: #666;
 }
