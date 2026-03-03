@@ -126,6 +126,49 @@ export const createOfflineBooking = async (bookingData) => {
 };
 
 /**
+ * Update booking (admin only)
+ */
+export const updateBooking = async (bookingId, bookingData) => {
+  const id = Number(bookingId);
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error('Invalid booking id for update');
+  }
+
+  const updatePaths = [
+    `/admin/bookings/${id}`,
+    `/admin/offline-booking/${id}`,
+    `/admin/offline-bookings/${id}`
+  ];
+
+  let lastError = null;
+
+  for (let i = 0; i < updatePaths.length; i += 1) {
+    const path = updatePaths[i];
+    const response = await fetch(`${API_BASE_URL}${path}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(bookingData)
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.ok) {
+      return data;
+    }
+
+    // Retry with compatibility paths only for "route not found".
+    if (response.status === 404 && i < updatePaths.length - 1) {
+      continue;
+    }
+
+    lastError = new Error(data.message || data.error || `Failed to update booking (HTTP ${response.status})`);
+    break;
+  }
+
+  throw lastError || new Error('Failed to update booking');
+};
+
+/**
  * Block Time Slot
  */
 export const blockTimeSlot = async (blockData) => {

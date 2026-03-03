@@ -486,3 +486,69 @@
 .pricing-status.error {
   color: #f87171;
 }
+
+.booking-edit-input {
+  width: 100%;
+  min-width: 88px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.booking-edit-input:focus {
+  outline: none;
+  border-color: var(--brand-green);
+  box-shadow: 0 0 0 2px rgba(0, 217, 163, 0.18);
+}
+
+.booking-edit-input option {
+  background: #1a1d2e;
+  color: var(--white);
+}
+
+.booking-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.booking-edit-error {
+  margin-top: 8px;
+  max-width: 260px;
+  color: #f87171;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.booking-action-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--white);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.booking-action-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.booking-action-btn.save {
+  background: rgba(0, 217, 163, 0.2);
+  border-color: rgba(0, 217, 163, 0.45);
+}
+
+.booking-action-btn.cancel {
+  background: rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.4);
+}
+
+.booking-action-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
