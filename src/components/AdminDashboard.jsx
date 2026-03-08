@@ -22,6 +22,7 @@ import {
 import { getGrounds, updateGroundPricing } from '../utils/api';
 import { FaPencilAlt, FaSave } from 'react-icons/fa';
 import OfflineBookingFlow from './OfflineBookingFlow';
+import BlockTimeSlot from './BlockTimeSlot';
 import './AdminDashboard.css';
 
 const IST_TIMEZONE = 'Asia/Kolkata';
@@ -507,6 +508,12 @@ function AdminDashboard() {
           >
             📋 All Bookings
           </button>
+          <button
+            className={`tab-button ${activeTab === 'block' ? 'active' : ''}`}
+            onClick={() => setActiveTab('block')}
+          >
+            🚫 Disable Date / Time
+          </button>
         </div>
 
         {/* Offline Booking Success Message */}
@@ -568,6 +575,13 @@ function AdminDashboard() {
           <div className="section-content">
             <h2 style={{ color: 'var(--white)', marginBottom: '20px' }}>All Bookings</h2>
             {renderBookingsTable()}
+          </div>
+        )}
+
+        {/* Disable Date/Time - Block slots so end users cannot book */}
+        {activeTab === 'block' && (
+          <div className="section-content">
+            <BlockTimeSlot />
           </div>
         )}
       </main>

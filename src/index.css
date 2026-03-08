@@ -152,6 +152,11 @@ select {
   transition: all 0.25s;
 }
 
+/* Force light dropdown so option text is visible (avoids dark-theme invisible text) */
+select {
+  color-scheme: light;
+}
+
 input:focus,
 textarea:focus,
 select:focus {
