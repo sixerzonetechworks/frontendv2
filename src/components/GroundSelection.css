@@ -200,7 +200,8 @@
   color: var(--white);
 }
 
-.ground-card.unavailable {
+.ground-card.unavailable,
+.ground-card.disabled {
   border-color: rgba(239, 68, 68, 0.3);
   background: rgba(239, 68, 68, 0.05);
   cursor: not-allowed;

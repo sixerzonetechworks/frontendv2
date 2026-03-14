@@ -61,11 +61,12 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
   };
 
   /**
-   * Handle ground selection
-   * @param {Object} ground - Ground object with id, name, and availability
+   * Handle ground selection - only allow if ground is available (not disabled/booked)
+   * @param {Object} ground - Ground object with id, name, available, disabled
    */
   const handleGroundClick = (ground) => {
-    if (ground.available) {
+    const isDisabled = ground.disabled === true || ground.available === false;
+    if (!isDisabled) {
       onGroundSelect(ground);
     }
   };
@@ -124,20 +125,24 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
         </div>
         <div className="legend-item">
           <span className="legend-box unavailable"></span>
-          <span>Already Booked</span>
+          <span>Disabled (Already Booked)</span>
         </div>
       </div>
 
       {/* Grounds grid */}
       <div className="grounds-grid">
-        {grounds.map((ground) => (
+        {grounds.map((ground) => {
+          const isDisabled = ground.disabled === true || ground.available === false;
+          return (
           <div
             key={ground.id}
-            className={`ground-card ${ground.available ? 'available' : 'unavailable'}`}
+            className={`ground-card ${isDisabled ? 'unavailable disabled' : 'available'}`}
             onClick={() => handleGroundClick(ground)}
+            onKeyDown={(e) => { if (isDisabled) e.preventDefault(); else if (e.key === 'Enter') handleGroundClick(ground); }}
             role="button"
-            tabIndex={ground.available ? 0 : -1}
-            aria-label={`${ground.name} - ${ground.available ? 'available' : 'booked'}`}
+            tabIndex={isDisabled ? -1 : 0}
+            aria-disabled={isDisabled}
+            aria-label={`${groundDisplayNames[ground.name] || ground.name} - ${isDisabled ? 'disabled, already booked' : 'available'}`}
           >
             {/* Ground Visual Diagram */}
             <div className="ground-visual">
@@ -259,16 +264,17 @@ function GroundSelection({ selectedDate, selectedSlot, onGroundSelect, onBack })
                 </div>
               )}
               
-              <div className={`ground-status ${ground.available ? 'available-badge' : 'unavailable-badge'}`}>
-                {ground.available ? '✓ Available' : '✗ Booked'}
+              <div className={`ground-status ${isDisabled ? 'unavailable-badge' : 'available-badge'}`}>
+                {isDisabled ? '✗ Disabled (Booked)' : '✓ Available'}
               </div>
             </div>
           </div>
-        ))}
+        );
+        })}
       </div>
 
-      {/* Show message if all grounds are booked */}
-      {grounds.every(g => !g.available) && (
+      {/* Show message if all grounds are booked/disabled */}
+      {grounds.every(g => g.disabled === true || g.available === false) && (
         <div className="no-grounds-message">
           <p>All grounds are booked for this time slot.</p>
           <p>Please select a different time slot.</p>

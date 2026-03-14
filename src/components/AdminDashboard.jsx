@@ -17,10 +17,11 @@ import {
   getAllBookings, 
   searchBooking,
   getStatistics,
-  updateBooking
+  updateBooking,
+  deleteBooking
 } from '../utils/adminApi';
 import { getGrounds, updateGroundPricing } from '../utils/api';
-import { FaPencilAlt, FaSave } from 'react-icons/fa';
+import { FaPencilAlt, FaSave, FaTrash } from 'react-icons/fa';
 import OfflineBookingFlow from './OfflineBookingFlow';
 import BlockTimeSlot from './BlockTimeSlot';
 import './AdminDashboard.css';
@@ -106,6 +107,7 @@ function AdminDashboard() {
   const [bookingEditForm, setBookingEditForm] = useState(null);
   const [bookingActionLoading, setBookingActionLoading] = useState(false);
   const [bookingEditError, setBookingEditError] = useState('');
+  const [deletingBookingId, setDeletingBookingId] = useState(null);
 
   useEffect(() => {
     if (!isAdminLoggedIn()) {
@@ -273,6 +275,23 @@ function AdminDashboard() {
     setEditingBookingId(null);
     setBookingEditForm(null);
     setBookingEditError('');
+  };
+
+  const handleDeleteBooking = async (bookingId) => {
+    if (!window.confirm('Delete this booking? The slot will become available for new bookings.')) return;
+
+    setDeletingBookingId(bookingId);
+    setError('');
+
+    try {
+      await deleteBooking(bookingId);
+      setBookings((prev) => prev.filter((b) => b.id !== bookingId));
+      loadStatistics();
+    } catch (err) {
+      setError(err.message || 'Failed to delete booking');
+    } finally {
+      setDeletingBookingId(null);
+    }
   };
 
   const handleBookingEditFieldChange = (field, value) => {
@@ -813,13 +832,23 @@ function AdminDashboard() {
                           )}
                         </div>
                       ) : (
-                        <button
-                          className="booking-action-btn"
-                          onClick={() => startBookingEdit(booking)}
-                          disabled={editingBookingId !== null}
-                        >
-                          Edit
-                        </button>
+                        <div className="booking-actions">
+                          <button
+                            className="booking-action-btn"
+                            onClick={() => startBookingEdit(booking)}
+                            disabled={editingBookingId !== null}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="booking-action-btn delete"
+                            onClick={() => handleDeleteBooking(booking.id)}
+                            disabled={deletingBookingId === booking.id}
+                            title="Delete booking (slot will become available)"
+                          >
+                            {deletingBookingId === booking.id ? 'Deleting...' : <><FaTrash /> Delete</>}
+                          </button>
+                        </div>
                       )}
                     </td>
                   </tr>

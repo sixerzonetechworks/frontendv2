@@ -548,6 +548,20 @@
   border-color: rgba(255, 107, 107, 0.4);
 }
 
+.booking-action-btn.delete {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.booking-action-btn.delete:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.booking-action-btn.delete svg {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
 .booking-action-btn:disabled {
   opacity: 0.65;
   cursor: not-allowed;

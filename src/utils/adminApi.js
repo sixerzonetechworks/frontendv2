@@ -169,6 +169,30 @@ export const updateBooking = async (bookingId, bookingData) => {
 };
 
 /**
+ * Delete booking (admin only).
+ * Once deleted, the slot becomes available for end users.
+ */
+export const deleteBooking = async (bookingId) => {
+  const id = Number(bookingId);
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error('Invalid booking id for delete');
+  }
+
+  const response = await fetch(`${API_BASE_URL}/admin/bookings/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders()
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || data.error || 'Failed to delete booking');
+  }
+
+  return data;
+};
+
+/**
  * Block Time Slot
  */
 export const blockTimeSlot = async (blockData) => {
