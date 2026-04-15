@@ -149,6 +149,64 @@ export const getAvailableGrounds = async (date, startHour) => {
 };
 
 /**
+ * Fetch smart booking options for a specific date, start hour, and duration
+ * Returns single-ground and split-ground options sorted by convenience
+ * 
+ * @route GET /api/grounds/get-smart-options?date=YYYY-MM-DD&startHour=N&duration=N
+ * @param {string} date - Date in YYYY-MM-DD format
+ * @param {number} startHour - Start hour (0-23)
+ * @param {number} duration - Number of consecutive hours
+ * @returns {Promise<Object>} { date, startHour, duration, requiredHours, options: [...] }
+ */
+export const getSmartBookingOptions = async (date, startHour, duration) => {
+  try {
+    const url = `${API_BASE_URL}/grounds/get-smart-options?date=${date}&startHour=${startHour}&duration=${duration}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching smart booking options:', error);
+    throw error;
+  }
+};
+
+/**
+ * Create a Razorpay order for a split booking (multiple grounds)
+ * 
+ * @route POST /api/payments/create-split-order
+ * @param {Object} bookingData - { name, phone, email, date, slots: [{groundId, hour}] }
+ * @returns {Promise<Object>} Order and booking information including Razorpay key
+ */
+export const createSplitPaymentOrder = async (bookingData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/payments/create-split-order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookingData),
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating split payment order:', error);
+    throw error;
+  }
+};
+
+/**
  * Fetch all grounds (for admin panel)
  * 
  * @route GET /api/grounds/get-available-grounds?date=2026-01-15&startHour=12

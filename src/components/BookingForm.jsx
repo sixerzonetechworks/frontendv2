@@ -13,8 +13,8 @@
  */
 
 import { useState } from 'react';
-import { createPaymentOrder, verifyPayment, handlePaymentFailure, cancelBooking } from '../utils/api';
-import { formatDate, getDayName, isValidEmail, isValidPhone, formatTimeRange } from '../utils/helpers';
+import { createPaymentOrder, createSplitPaymentOrder, verifyPayment, handlePaymentFailure, cancelBooking } from '../utils/api';
+import { formatDate, getDayName, isValidEmail, isValidPhone, formatTimeRange, formatTime } from '../utils/helpers';
 import './BookingForm.css';
 
 function BookingForm({ selectedDate, selectedSlot, selectedGround, onBookingComplete, onBack }) {
@@ -214,18 +214,35 @@ function BookingForm({ selectedDate, selectedSlot, selectedGround, onBookingComp
       setPaymentStep('processing');
 
       // Prepare booking data
-      const bookingData = {
-        name: formData.name.trim(),
-        phone: formData.phone.trim(),
-        email: formData.email.trim(),
-        groundId: selectedGround.id,
-        date: selectedDate,
-        startHour: selectedSlot.hour,
-        startHours: selectedSlot.hours || [selectedSlot.hour] // Send multiple hours if selected
-      };
+      const isSplit = selectedGround.type === 'split';
+      let orderData;
 
-      // Create payment order
-      const orderData = await createPaymentOrder(bookingData);
+      if (isSplit) {
+        // Split booking: send array of slots
+        const splitData = {
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          email: formData.email.trim(),
+          date: selectedDate,
+          slots: selectedGround.slots.map(s => ({
+            groundId: s.groundId,
+            hour: s.hour
+          }))
+        };
+        orderData = await createSplitPaymentOrder(splitData);
+      } else {
+        // Single ground booking: use existing flow
+        const bookingData = {
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          email: formData.email.trim(),
+          groundId: selectedGround.groundId || selectedGround.id,
+          date: selectedDate,
+          startHour: selectedSlot.hour,
+          startHours: selectedSlot.hours || [selectedSlot.hour]
+        };
+        orderData = await createPaymentOrder(bookingData);
+      }
 
       if (!orderData.success) {
         throw new Error('Failed to create payment order');
@@ -283,10 +300,28 @@ function BookingForm({ selectedDate, selectedSlot, selectedGround, onBookingComp
                 }
               </span>
             </div>
-            <div className="summary-item">
-              <span className="summary-label">Ground:</span>
-              <span className="summary-value">{groundDisplayNames[selectedGround.name] || selectedGround.name}</span>
-            </div>
+            
+            {/* Show ground info - different for split vs single */}
+            {selectedGround.type === 'split' ? (
+              <>
+                <div className="summary-item">
+                  <span className="summary-label">Type:</span>
+                  <span className="summary-value" style={{ color: '#3B82F6' }}>🔄 Switch Grounds</span>
+                </div>
+                <div className="summary-item">
+                  <span className="summary-label">Schedule:</span>
+                  <span className="summary-value" style={{ fontSize: '0.9em' }}>
+                    {selectedGround.description}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="summary-item">
+                <span className="summary-label">Ground:</span>
+                <span className="summary-value">{groundDisplayNames[selectedGround.groundName || selectedGround.name] || selectedGround.label || selectedGround.name}</span>
+              </div>
+            )}
+            
             <div className="summary-item">
               <span className="summary-label">Duration:</span>
               <span className="summary-value">
@@ -295,7 +330,7 @@ function BookingForm({ selectedDate, selectedSlot, selectedGround, onBookingComp
             </div>
             <div className="summary-item price-highlight">
               <span className="summary-label">Total Amount:</span>
-              <span className="summary-value price-amount">₹{backendTotalAmount !== null ? backendTotalAmount : selectedGround.price}</span>
+              <span className="summary-value price-amount">₹{backendTotalAmount !== null ? backendTotalAmount : selectedGround.totalPrice || selectedGround.price}</span>
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@
  * - Customizable statistics
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   isAdminLoggedIn, 
@@ -103,6 +103,7 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [offlineBookingSuccess, setOfflineBookingSuccess] = useState(null);
+  const [expandedBookingId, setExpandedBookingId] = useState(null);
   const [editingBookingId, setEditingBookingId] = useState(null);
   const [bookingEditForm, setBookingEditForm] = useState(null);
   const [bookingActionLoading, setBookingActionLoading] = useState(false);
@@ -624,234 +625,179 @@ function AdminDashboard() {
               <tr>
                 <th>ID</th>
                 <th>Customer</th>
-                <th>Phone</th>
-                <th>Email</th>
                 <th>Ground</th>
                 <th>Date</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Amount</th>
-                <th>Payment ID</th>
-                <th>Type</th>
+                <th>Time</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking) => {
-                const isEditingBooking = editingBookingId === booking.id && bookingEditForm;
+                const isEditingBooking = editingBookingId === booking.id && bookingEditForm !== null;
+                const isExpanded = expandedBookingId === booking.id;
 
                 return (
-                  <tr key={booking.id}>
-                    <td>#{booking.id}</td>
-                    <td>
-                      {isEditingBooking ? (
-                        <input
-                          className="booking-edit-input"
-                          value={bookingEditForm.name}
-                          onChange={(e) => handleBookingEditFieldChange('name', e.target.value)}
-                        />
-                      ) : (
-                        booking.name
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <input
-                          className="booking-edit-input"
-                          value={bookingEditForm.phone}
-                          onChange={(e) => handleBookingEditFieldChange('phone', e.target.value)}
-                        />
-                      ) : (
-                        booking.phone
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <input
-                          className="booking-edit-input"
-                          type="email"
-                          value={bookingEditForm.email}
-                          onChange={(e) => handleBookingEditFieldChange('email', e.target.value)}
-                        />
-                      ) : (
-                        booking.email
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <select
-                          className="booking-edit-input"
-                          value={bookingEditForm.groundId}
-                          onChange={(e) => handleBookingEditFieldChange('groundId', e.target.value)}
-                        >
-                          <option value="">Select Ground</option>
-                          {grounds.map((ground) => (
-                            <option key={ground.id} value={ground.id}>
-                              {ground.name}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        booking.ground?.name || 'N/A'
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <input
-                          className="booking-edit-input"
-                          type="date"
-                          value={bookingEditForm.date}
-                          onChange={(e) => handleBookingEditFieldChange('date', e.target.value)}
-                        />
-                      ) : (
-                        formatDate(booking.startTime)
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <select
-                          className="booking-edit-input"
-                          value={Number(bookingEditForm.startHour)}
-                          onChange={(e) => handleBookingEditFieldChange('startHour', Number(e.target.value))}
-                        >
-                          {Array.from({ length: 24 }, (_, hour) => (
-                            <option key={hour} value={hour}>
-                              {formatHourLabel(hour)}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        formatTime(booking.startTime)
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <select
-                          className="booking-edit-input"
-                          value={Number(bookingEditForm.endHour)}
-                          onChange={(e) => handleBookingEditFieldChange('endHour', Number(e.target.value))}
-                        >
-                          {Array.from({ length: 24 }, (_, hour) => (
-                            <option key={hour} value={hour}>
-                              {formatHourLabel(hour)}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        formatTime(booking.endTime)
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <input
-                          className="booking-edit-input"
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={bookingEditForm.totalAmount}
-                          onChange={(e) => handleBookingEditFieldChange('totalAmount', e.target.value)}
-                        />
-                      ) : (
-                        `₹${booking.totalAmount}`
-                      )}
-                    </td>
-                    <td>
-                      {booking.razorpayPaymentId ? (
-                        <a
-                          href={`https://dashboard.razorpay.com/app/payments/${booking.razorpayPaymentId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: 'var(--brand-green)', textDecoration: 'underline', fontSize: '0.85em' }}
-                          title="View in Razorpay Dashboard"
-                        >
-                          {booking.razorpayPaymentId.substring(0, 15)}...
-                        </a>
-                      ) : (
-                        <span style={{ color: '#666', fontSize: '0.85em' }}>
-                          {booking.bookingType === 'offline' ? 'Offline' : 'Pending'}
-                        </span>
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <select
-                          className="booking-edit-input"
-                          value={bookingEditForm.bookingType}
-                          onChange={(e) => handleBookingEditFieldChange('bookingType', e.target.value)}
-                        >
-                          <option value="online">online</option>
-                          <option value="offline">offline</option>
-                        </select>
-                      ) : (
-                        <span className={`booking-type-badge ${booking.bookingType || 'online'}`}>
-                          {booking.bookingType || 'online'}
-                        </span>
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <select
-                          className="booking-edit-input"
-                          value={bookingEditForm.paymentStatus}
-                          onChange={(e) => handleBookingEditFieldChange('paymentStatus', e.target.value)}
-                        >
-                          <option value="pending">pending</option>
-                          <option value="processing">processing</option>
-                          <option value="paid">paid</option>
-                          <option value="failed">failed</option>
-                          <option value="refunded">refunded</option>
-                        </select>
-                      ) : (
+                  <React.Fragment key={booking.id}>
+                    <tr 
+                      className={`booking-main-row ${isExpanded || isEditingBooking ? 'expanded' : ''}`}
+                      onClick={(e) => {
+                        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('button')) return;
+                        setExpandedBookingId(isExpanded ? null : booking.id);
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <td>#{booking.id}</td>
+                      <td>{booking.name}</td>
+                      <td>{booking.ground?.name || 'N/A'}</td>
+                      <td>{formatDate(booking.startTime)}</td>
+                      <td>{formatTime(booking.startTime)} - {formatTime(booking.endTime)}</td>
+                      <td>
                         <span className={`status-badge ${booking.paymentStatus}`}>
                           {booking.paymentStatus}
                         </span>
-                      )}
-                    </td>
-                    <td>
-                      {isEditingBooking ? (
-                        <div>
-                          <div className="booking-actions">
-                            <button
-                              className="booking-action-btn save"
-                              onClick={() => saveBookingEdit(booking.id)}
-                              disabled={bookingActionLoading}
-                            >
-                              Save
-                            </button>
-                            <button
-                              className="booking-action-btn cancel"
-                              onClick={cancelBookingEdit}
-                              disabled={bookingActionLoading}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                          {bookingEditError && (
-                            <div className="booking-edit-error">{bookingEditError}</div>
-                          )}
-                        </div>
-                      ) : (
+                      </td>
+                      <td>
                         <div className="booking-actions">
                           <button
                             className="booking-action-btn"
-                            onClick={() => startBookingEdit(booking)}
-                            disabled={editingBookingId !== null}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              startBookingEdit(booking);
+                            }}
+                            disabled={editingBookingId !== null && editingBookingId !== booking.id}
                           >
                             Edit
                           </button>
                           <button
                             className="booking-action-btn delete"
-                            onClick={() => handleDeleteBooking(booking.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteBooking(booking.id);
+                            }}
                             disabled={deletingBookingId === booking.id}
-                            title="Delete booking (slot will become available)"
+                            title="Delete booking"
                           >
-                            {deletingBookingId === booking.id ? 'Deleting...' : <><FaTrash /> Delete</>}
+                            {deletingBookingId === booking.id ? 'Deleting...' : 'Delete'}
                           </button>
                         </div>
-                      )}
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+
+                    {(isExpanded || isEditingBooking) && (
+                      <tr className="booking-details-row">
+                        <td colSpan="7" style={{ padding: 0 }}>
+                          {isEditingBooking ? (
+                            <div className="booking-edit-container">
+                              <h4 style={{marginBottom: '15px'}}>Edit Booking</h4>
+                              <div className="edit-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '15px' }}>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Name</label>
+                                  <input className="booking-edit-input" style={{width:'100%'}} value={bookingEditForm.name} onChange={(e) => handleBookingEditFieldChange('name', e.target.value)} />
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Phone</label>
+                                  <input className="booking-edit-input" style={{width:'100%'}} value={bookingEditForm.phone} onChange={(e) => handleBookingEditFieldChange('phone', e.target.value)} />
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Email</label>
+                                  <input className="booking-edit-input" style={{width:'100%'}} type="email" value={bookingEditForm.email} onChange={(e) => handleBookingEditFieldChange('email', e.target.value)} />
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Ground</label>
+                                  <select className="booking-edit-input" style={{width:'100%'}} value={bookingEditForm.groundId} onChange={(e) => handleBookingEditFieldChange('groundId', e.target.value)}>
+                                    <option value="">Select Ground</option>
+                                    {grounds.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+                                  </select>
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Date</label>
+                                  <input className="booking-edit-input" style={{width:'100%'}} type="date" value={bookingEditForm.date} onChange={(e) => handleBookingEditFieldChange('date', e.target.value)} />
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Start Time</label>
+                                  <select className="booking-edit-input" style={{width:'100%'}} value={Number(bookingEditForm.startHour)} onChange={(e) => handleBookingEditFieldChange('startHour', Number(e.target.value))}>
+                                    {Array.from({length: 24}, (_, h) => <option key={h} value={h}>{formatHourLabel(h)}</option>)}
+                                  </select>
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>End Time</label>
+                                  <select className="booking-edit-input" style={{width:'100%'}} value={Number(bookingEditForm.endHour)} onChange={(e) => handleBookingEditFieldChange('endHour', Number(e.target.value))}>
+                                    {Array.from({length: 24}, (_, h) => <option key={h} value={h}>{formatHourLabel(h)}</option>)}
+                                  </select>
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Amount (₹)</label>
+                                  <input className="booking-edit-input" style={{width:'100%'}} type="number" min="0" step="0.01" value={bookingEditForm.totalAmount} onChange={(e) => handleBookingEditFieldChange('totalAmount', e.target.value)} />
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Type</label>
+                                  <select className="booking-edit-input" style={{width:'100%'}} value={bookingEditForm.bookingType} onChange={(e) => handleBookingEditFieldChange('bookingType', e.target.value)}>
+                                    <option value="online">online</option>
+                                    <option value="offline">offline</option>
+                                  </select>
+                                </div>
+                                <div className="edit-field">
+                                  <label style={{display:'block', fontSize:'0.85em', color:'#aaa', marginBottom:'5px'}}>Status</label>
+                                  <select className="booking-edit-input" style={{width:'100%'}} value={bookingEditForm.paymentStatus} onChange={(e) => handleBookingEditFieldChange('paymentStatus', e.target.value)}>
+                                    <option value="pending">pending</option>
+                                    <option value="processing">processing</option>
+                                    <option value="paid">paid</option>
+                                    <option value="failed">failed</option>
+                                    <option value="refunded">refunded</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="edit-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+                                <button className="booking-action-btn save" style={{ padding: '8px 24px' }} onClick={() => saveBookingEdit(booking.id)} disabled={bookingActionLoading}>Save Changes</button>
+                                <button className="booking-action-btn cancel" style={{ padding: '8px 24px' }} onClick={cancelBookingEdit} disabled={bookingActionLoading}>Cancel</button>
+                              </div>
+                              {bookingEditError && <div className="booking-edit-error" style={{marginTop:'10px', color:'#ff6b6b'}}>{bookingEditError}</div>}
+                            </div>
+                          ) : (
+                            <div className="booking-details-content">
+                              <div className="detail-grid">
+                                <div className="detail-item">
+                                  <span className="detail-label">Phone Reference</span>
+                                  <span className="detail-value">{booking.phone}</span>
+                                </div>
+                                <div className="detail-item">
+                                  <span className="detail-label">Email ID</span>
+                                  <span className="detail-value">{booking.email}</span>
+                                </div>
+                                <div className="detail-item">
+                                  <span className="detail-label">Total Amount</span>
+                                  <span className="detail-value" style={{fontWeight: 'bold', color: 'var(--brand-green)'}}>₹{booking.totalAmount}</span>
+                                </div>
+                                <div className="detail-item">
+                                  <span className="detail-label">Transaction ID</span>
+                                  <span className="detail-value">
+                                    {booking.razorpayPaymentId ? (
+                                      <a href={`https://dashboard.razorpay.com/app/payments/${booking.razorpayPaymentId}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brand-green)', textDecoration: 'underline' }}>{booking.razorpayPaymentId}</a>
+                                    ) : (
+                                      <span style={{ color: '#aaa'}}>{booking.bookingType === 'offline' ? 'Offline Payment' : 'Pending Payment'}</span>
+                                    )}
+                                  </span>
+                                </div>
+                                <div className="detail-item">
+                                  <span className="detail-label">Booking Mode</span>
+                                  <span className="detail-value">
+                                    <span style={{
+                                      padding: '2px 8px', borderRadius: '4px', fontSize: '0.9em',
+                                      background: booking.bookingType === 'offline' ? 'rgba(255, 171, 0, 0.2)' : 'rgba(0, 217, 163, 0.2)',
+                                      color: booking.bookingType === 'offline' ? '#ffab00' : '#00d9a3'
+                                    }}>
+                                      {booking.bookingType?.toUpperCase() || 'ONLINE'}
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </tbody>

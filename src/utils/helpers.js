@@ -103,3 +103,40 @@ export const formatTimeRange = (hours) => {
   const endTime = formatTime(sortedHours[sortedHours.length - 1] + 1);
   return `${startTime} to ${endTime}`;
 };
+
+/**
+ * Format split booking slots into a human-readable description
+ * 
+ * @param {Array} slots - Array of {hour, groundName, price} objects
+ * @returns {string} Formatted description (e.g., "Ground 1 (7 PM - 8 PM) → Ground 2 (8 PM - 9 PM)")
+ */
+export const formatSplitBookingSlots = (slots) => {
+  if (!slots || slots.length === 0) return '';
+
+  const groundDisplayNames = {
+    'G1': 'Ground 1',
+    'G2': 'Ground 2',
+    'Mega_Ground': 'Double Ground'
+  };
+  
+  // Group consecutive hours on the same ground into segments
+  const segments = [];
+  let currentSegment = { groundName: slots[0].groundName, hours: [slots[0].hour] };
+  
+  for (let i = 1; i < slots.length; i++) {
+    if (slots[i].groundName === currentSegment.groundName) {
+      currentSegment.hours.push(slots[i].hour);
+    } else {
+      segments.push(currentSegment);
+      currentSegment = { groundName: slots[i].groundName, hours: [slots[i].hour] };
+    }
+  }
+  segments.push(currentSegment);
+  
+  return segments.map(seg => {
+    const displayName = groundDisplayNames[seg.groundName] || seg.groundName;
+    const startTime = formatTime(seg.hours[0]);
+    const endTime = formatTime(seg.hours[seg.hours.length - 1] + 1);
+    return `${displayName} (${startTime} - ${endTime})`;
+  }).join(' → ');
+};

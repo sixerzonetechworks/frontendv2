@@ -225,6 +225,7 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
 .search-bar input {
@@ -565,4 +566,69 @@
 .booking-action-btn:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+
+/* Expanded Row Styles */
+.booking-main-row {
+  transition: all 0.2s ease;
+}
+
+.booking-main-row:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.booking-main-row.expanded {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.booking-main-row.expanded td {
+  border-bottom: none;
+}
+
+.booking-details-row td {
+  border-bottom: 2px solid rgba(0, 217, 163, 0.3);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.booking-details-content {
+  padding: 20px 30px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 12px 12px;
+  margin: 0 12px 20px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: none;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.detail-value {
+  font-size: 1.05rem;
+  color: var(--white);
+  font-weight: 500;
+}
+
+.booking-edit-container {
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.3);
+  margin: 0 12px 20px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

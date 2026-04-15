@@ -14,7 +14,7 @@ import DateSelection from "./DateSelection";
 import TimeSlotSelection from "./TimeSlotSelection";
 import GroundSelection from "./GroundSelection";
 import BookingForm from "./BookingForm";
-import { formatDate, formatTimeRange } from "../utils/helpers";
+import { formatDate, formatTimeRange, formatSplitBookingSlots } from "../utils/helpers";
 
 function CustomerBooking() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -119,10 +119,26 @@ function CustomerBooking() {
               <p>
                 <strong>Name:</strong> <span>{bookingConfirmation.name}</span>
               </p>
-              <p>
-                <strong>Ground:</strong>{" "}
-                <span>{bookingConfirmation.groundName}</span>
-              </p>
+              {/* Show ground info - different for split vs single */}
+              {selectedGround?.type === 'split' ? (
+                <>
+                  <p>
+                    <strong>Type:</strong>{" "}
+                    <span style={{ color: '#3B82F6' }}>🔄 Switch Grounds</span>
+                  </p>
+                  <p>
+                    <strong>Schedule:</strong>{" "}
+                    <span style={{ fontSize: '0.9em' }}>
+                      {selectedGround.description || (selectedGround.slots && formatSplitBookingSlots(selectedGround.slots))}
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <p>
+                  <strong>Ground:</strong>{" "}
+                  <span>{bookingConfirmation.groundName || selectedGround?.label || selectedGround?.groundName}</span>
+                </p>
+              )}
               <p>
                 <strong>Date:</strong>{" "}
                 <span>
