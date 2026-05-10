@@ -78,7 +78,7 @@ function OfflineBookingFlow({ onBookingComplete, onCancel }) {
         name: formData.name.trim(),
         phone: formData.phone.trim(),
         email: formData.email.trim(),
-        groundId: selectedGround.id,
+        groundId: selectedGround.groundId || selectedGround.id,
         date: selectedDate,
         startHour: selectedSlot.hour,
         duration: selectedSlot.hours ? selectedSlot.hours.length : 1,
@@ -176,7 +176,7 @@ function OfflineBookingFlow({ onBookingComplete, onCancel }) {
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Ground:</span>
-                  <span className="summary-value">{groundDisplayNames[selectedGround.name] || selectedGround.name}</span>
+                  <span className="summary-value">{groundDisplayNames[selectedGround.groundName || selectedGround.name] || selectedGround.label || selectedGround.name}</span>
                 </div>
                 <div className="summary-item">
                   <span className="summary-label">Duration:</span>
